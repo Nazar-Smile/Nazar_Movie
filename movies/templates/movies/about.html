@@ -1,0 +1,82 @@
+{% extends 'base.html' %}
+{% block content %}
+{% load static %}
+	<!-- page title -->
+	<section class="section section--first section--bg" data-bg="{% static 'img/section/section' %}.jpg">
+		<div class="container">
+			<div class="row">
+				<div class="col-12">
+					<div class="section__wrap">
+						<!-- section title -->
+						<h2 class="section__title">О сайте</h2>
+						<!-- end section title -->
+
+						<!-- breadcrumb -->
+						<ul class="breadcrumb">
+							<li class="breadcrumb__item"><a href="{% url 'index' %}">Главная</a></li>
+							<li class="breadcrumb__item breadcrumb__item--active">О сайте</li>
+						</ul>
+						<!-- end breadcrumb -->
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+	<!-- end page title -->
+
+	<!-- pricing -->
+	<div class="section">
+		<div class="container">
+			<div class="row">
+				<div class="col-12 col-md-6 col-lg-4">
+					<div class="price price--premium">
+						<div class="price__item price__item--first"><span>Визуальная часть сайта</span><span>☑</span></div>
+						<div class="price__item" style="color:white;"><span>Кнопки и их расположение</span>☑</div>
+						<div class="price__item" style="color:white;"><span>Логотип</span>☑</div>
+						<div class="price__item" style="color:white;"><span>Размер изображений</span>☑</div>
+						<div class="price__item" style="color:white;"><span>Фон</span>☑</div>
+						<div class="price__item" style="color:white;"><span>Цвет шрифта</span>☑</div>
+						<a href="{% url 'index' %}" class="price__btn">Перейти на главную</a>
+					</div>
+				</div>
+
+				<div class="col-12 col-md-6 col-lg-4">
+					<div class="price price--premium">
+						<div class="price__item price__item--first"><span>Функциональная часть сайта</span><span>☑</span></div>
+						<div class="price__item" style="color:white;"><span>Видеоплеер</span>☑</div>
+						<div class="price__item" style="color:white;"><span>Вывод последних добавленных фильмов и актёров</span>☑</div>
+						<div class="price__item" style="color:white;"><span>Детальная страница с актёрами</span>☑</div>
+						<div class="price__item" style="color:white;"><span>Детальная страница с фильмами</span>☑</div>
+						<div class="price__item" style="color:white;"><span>Изменения в административной панели</span>☑</div>
+						<div class="price__item" style="color:white;"><span>Кадры к фильмам</span>☑</div>
+						<div class="price__item" style="color:white;"><span>Логин и Регистрация</span>☑</div>
+						<div class="price__item" style="color:white;"><span>Отзывы/Комментарии к фильмам</span>☑</div>
+						<div class="price__item" style="color:white;"><span>Пагинация</span>☑</div>
+						<div class="price__item" style="color:white;"><span>Перенос базы с SQLite Version 3 на PostgreSQL</span>☑</div>
+						<div class="price__item" style="color:white;"><span>Поиск</span>☑</div>
+						<div class="price__item" style="color:white;"><span>Полная информация и описание к фильмам/актёрам</span>☑</div>
+						<div class="price__item" style="color:white;"><span>Разделение по категориям</span>☑</div>
+						<div class="price__item" style="color:white;"><span>Трейлер, возраст.категория и прочее</span>☑</div>
+						<div class="price__item" style="color:white;"><span>Фильтрация по жанрам и годам</span>☑</div>
+						<a href="{% url 'index' %}" class="price__btn">Перейти на главную</a>
+					</div>
+				</div>
+				<div class="col-12 col-md-6 col-lg-4">
+					<div class="price price--premium">
+						<div class="price__item price__item--first"><span>Используемое ПО и Дополнения</span><span>☑</span></div>
+						<div class="price__item" style="color:white;"><span>PyCharm v2022.3.2 (Community Edition)</span>☑</div>
+						<div class="price__item" style="color:white;"><span>Mozilla Firefox v110.0</span>☑</div>
+						<div class="price__item" style="color:white;"><span>dbdiagram.io</span>☑</div>
+						<div class="price__item" style="color:white;"><span>Библиотека Django v4.1.6</span>☑</div>
+						<div class="price__item" style="color:white;"><span>Библиотека Pillow v9.4.0</span>☑</div>
+						<div class="price__item" style="color:white;"><span>Django CKEditor v6.5.1</span>☑</div>
+						<div class="price__item" style="color:white;"><span>Подключил статические файлы</span>☑</div>
+						<div class="price__item" style="color:white;"><span>Использовал CSRF-token</span>☑</div>
+						<a href="{% url 'index' %}" class="price__btn">Перейти на главную</a>
+					</div>
+				</div>
+
+			</div>
+		</div>
+	</div>
+{% endblock %}

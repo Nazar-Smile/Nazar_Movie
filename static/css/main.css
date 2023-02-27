@@ -1348,12 +1348,21 @@ height: auto;
   position: relative;
   background-image: -webkit-linear-gradient(0deg, #ff55a5 0%, #ff5860 100%);
   -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+   /*==============================
+  -webkit-text-fill-color: transparent; # Это оригинал
+==============================*/
+  -webkit-text-fill-color: #FF00CC;
   color: #ff5860;
   margin-right: 7px;
   opacity: 0.8;
-  font-family: 'Open Sans', sans-serif;
+  font-family: Georgia, serif;
 }
+
+/*==============================
+	font-family: 'Open Sans', sans-serif; # Это оригинал
+==============================*/
+
+
 .card__category a:after {
   content: ',';
   position: absolute;
@@ -1418,7 +1427,10 @@ height: auto;
 .card--details .card__description {
   display: block;
   margin-top: 15px;
-  font-family: 'Open Sans', sans-serif;
+  /*==============================
+  font-family: 'Open Sans', sans-serif; # Это оригинал
+==============================*/
+  font-family: Georgia, serif;
   font-size: 15px;
   line-height: 25px;
   color: rgba(255,255,255,0.7);
@@ -1473,7 +1485,10 @@ height: auto;
   align-items: flex-start;
   flex-wrap: wrap;
   width: 100%;
-  font-family: 'Open Sans', sans-serif;
+    /*==============================
+  font-family: 'Open Sans', sans-serif; # Это оригинал
+==============================*/
+  font-family: Georgia, serif;
 }
 .card--details .card__meta li:last-child {
   margin-bottom: 0;
@@ -3064,7 +3079,11 @@ html:not([dir="rtl"]) .noUi-horizontal .noUi-handle {
   flex-direction: row;
   justify-content: flex-start;
   align-items: center;
-  margin-bottom: 15px;
+  margin-bottom: -100px;
+/*==============================
+	  margin-bottom: 15px; - ЭТО ОРИГИНАЛ
+==============================*/
+
 }
 .footer__social li {
   margin-right: 20px;
@@ -3178,6 +3197,7 @@ html:not([dir="rtl"]) .noUi-horizontal .noUi-handle {
     margin-right: 30px;
   }
 }
+
 /*==============================
 	Sign
 ==============================*/
@@ -3721,3 +3741,40 @@ html:not([dir="rtl"]) .noUi-horizontal .noUi-handle {
   background-image: -ms-linear-gradient(180deg, #ff55a5 0%, #ff5860 100%);
   background-image: linear-gradient(180deg, #ff55a5 0%, #ff5860 100%);
 }
+
+
+
+.separator {
+  margin: 0 5px; /* добавляем отступы между разделителем и текстом ссылок */
+}
+.separator::before {
+  content: "";
+  margin-right: 5px; /* добавляем отступ между символом вертикальной черты и текстом ссылок */
+}
+
+
+
+
+.star-ratings {
+    font-size: 16px;
+    display: inline-block;
+    vertical-align: middle;
+    overflow: hidden;
+}
+.star-ratings input[type="radio"] {
+    display: none;
+}
+.star-ratings label {
+    float: right;
+    color: #ccc;
+    margin-right: 3px;
+    font-size: 18px;
+    padding: 2px;
+    cursor: pointer;
+}
+.star-ratings input[type="radio"]:checked + label {
+    color: #ffc107;
+}
+
+
+

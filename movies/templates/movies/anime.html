@@ -1,0 +1,127 @@
+{% extends 'base.html' %}
+{% block content %}
+{% load static %}
+	<!-- page title -->
+	<section class="section section--first section--bg" data-bg="img/section/section.jpg">
+		<div class="container">
+			<div class="row">
+				<div class="col-12">
+					<div class="section__wrap">
+						<!-- section title -->
+						<h2 class="paginator" style="color:#FF00CC;">Аниме</h2>
+						<!-- end section title -->
+
+						<!-- breadcrumb -->
+						<ul class="breadcrumb">
+							<li class="breadcrumb__item"><a href="{% url 'index' %}" style="color:#FF00CC;">Главная</a></li>
+							<li class="breadcrumb__item breadcrumb__item--active" style="color:#FF00CC;">Аниме</li>
+						</ul>
+						<!-- end breadcrumb -->
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+	<!-- end page title -->
+	<!-- end filter -->
+<form method="GET" action="{% url 'anime_list' %}">
+	    <label class="filter__items" style="color:#FF00CC; margin-left: 10em;" for="genre"><b style="color:#FF00CC;">Список доступных жанров:</b><span class="separator" style="color:#FF43A4;">|</span><a>Боевик</a><span class="separator" style="color:#FF43A4;">|</span><a>Детектив</a><span class="separator" style="color:#FF43A4;">|</span><a>Драма</a><span class="separator" style="color:#FF43A4;">|</span><a>Комедия</a><span class="separator" style="color:#FF43A4;">|</span><a>Криминал</a><span class="separator" style="color:#FF43A4;">|</span><a>Мелодрама</a><span class="separator" style="color:#FF43A4;">|</span><a>Мультфильм</a><span class="separator" style="color:#FF43A4;">|</span><a>Приключения</a><span class="separator" style="color:#FF43A4;">|</span><a>Семейный</a><span class="separator" style="color:#FF43A4;">|</span><a>Спорт</a><span class="separator" style="color:#FF43A4;">|</span><a>Триллер</a><span class="separator" style="color:#FF43A4;">|</span><a>Ужасы</a><span class="separator" style="color:#FF43A4;">|</span><a>Фантастика</a><span class="separator" style="color:#FF43A4;">|</span><a>Фэнтези<span class="separator" style="color:#FF43A4;">|</span></a></label>
+	<div class="filter" style="margin-left: 35em;"><label class="paginator__item" style="color:white;" for="genre"><b class="card__wrap">ЖАНР</b></label>
+    <input class="sign__input" placeholder="Введите желаемый Жанр" type="text" name="genre" id="genre" value="{{ request.GET.genre }}">
+    <label class="paginator__item" style="color:white;" for="year"><b class="card__wrap">ГОД</b></label>
+    <input class="sign__input" placeholder="Введите желаемый год" type="text" name="year" id="year" value="{{ request.GET.year }}">
+	    <button class="paginator__item" type="submit" style="color:white;" for="year"><b class="filter__btn">НАЙТИ</b></button></div>
+</form>
+  <div class="row">
+    {% for movie in movies %}
+      <div class="col-md-3">
+        <div class="card mb-4 box-shadow">
+          <img class="col-12 col-sm-8" src="{{ movie.poster.url }}" alt="{{ movie.title }}">
+          <div class="card__content">
+            <h5 class="card__title" style="margin-left: 0.8em;">{{ movie.title }}</h5>
+            <div class="card__description col-sm-9" style="margin-left: 0em;"><b style="color:#32CD32;">Описание:</b></span><b style="color:white;">{{ movie.description|safe }}</b></div>
+            <div class="d-flex justify-content-between align-items-center">
+              <div class="btn-group">
+                <a href="{% url 'movie_detail' movie.pk %}" class="filter__btn" style="margin-left: 0.7em; margin-top: 1rem;">Подробнее</a>
+              </div>
+              <small class="text-muted">{{ movie.year }}</small>
+            </div>
+          </div>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+
+	<!-- catalog -->
+	<div class="catalog">
+		<div class="container">
+			<div class="row">
+				<!-- card -->
+				{% for movie in movie_list %}
+				<div class="col-6 col-sm-12 col-lg-6">
+					<div class="card card--list">
+						<div class="row">
+							<div class="col-12 col-sm-4">
+								<div class="card__cover">
+									<img src="{{ movie.poster.url }}" alt="">
+									<a href="{% url 'movie_detail' movie.pk %}" class="card__play">
+										<i class="icon ion-ios-play"></i>
+									</a>
+								</div>
+							</div>
+
+							<div class="col-12 col-sm-8">
+								<div class="card__content">
+									<h3 class="card__title"><a href="{% url 'movie_detail' movie.pk %}">{{ movie.title }}</a></h3>
+									<span class="card__category">
+										<a href="{% url 'movie_detail' movie.pk %}">
+													{% for genre in movie.genres.all %}
+													{{ genre.name }}{% if not forloop.last %},{% endif %}
+													{% endfor %}</a>
+									</span>
+
+									<div class="card__wrap">
+										<ul class="card__list" style="margin-left: -0em;">
+													<li>{{ movie.age_category }}+</li>
+													<li>{{ movie.year }}</li>
+													<li>{{ movie.country }}</li>
+										<li><a href="{{ movie.trailer_url }}">ПОСМОТРЕТЬ ТРЕЙЛЕР</a></li>
+										</ul>
+									</div>
+
+									<div class="card__description">
+										<p>{{ movie.description|safe }}</p>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				{% endfor %}
+				<!-- end card -->
+				<div class="col-12">
+				        <div class="container">
+            <div style="background: 255,88,96,0.5; display: inline-block; padding: 7px 15px;border-radius: 5px;
+                        margin-top:2rem; margin-left:15rem;" class="pagination">
+                <span class="step-links">
+                    {% if page_obj.has_previous %}
+                        <a style="color:#FF43A4;" href="?page=1">&lArr; Первая</a>
+                        <a style="color:#FF43A4; margin-left:1rem;" href="?page={{ page_obj.previous_page_number }}">&lsaquo; Предыдущая</a>
+                    {% endif %}
+                    <span class="current">
+                        <a style="color:white; margin-left:1rem;"> Страница {{ page_obj.number }} из {{ page_obj.paginator.num_pages }}.</a>
+                    </span>
+                    {% if page_obj.has_next %}
+                        <a style="color:#FF43A4; margin-left:1rem;" href="?page={{ page_obj.next_page_number }}">Следующая &rsaquo;</a>
+                        <a style="color:#FF43A4; margin-left:1rem;" href="?page={{ page_obj.paginator.num_pages }}">Последняя &rArr;</a>
+                    {% endif %}
+                </span>
+            </div>
+        </div>  </div>
+			</div>
+		</div>
+	</div>
+	<!-- end catalog -->
+{% endblock %}
+{% block javascript %}
+{% endblock %}

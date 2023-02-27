@@ -5,9 +5,7 @@ from django.contrib import admin
 from django import forms
 from django.utils.safestring import mark_safe
 
-from .models import Category, Genre, Movie, MovieShots, Actor, Rating, RatingStar, Reviews
-
-
+from .models import Category, Genre, Movie, MovieShots, Actor, Comment
 
 from ckeditor_uploader.widgets import CKEditorUploadingWidget
 
@@ -27,16 +25,11 @@ class CategoryAdmin(admin.ModelAdmin):
     list_display_links = ("name",)
 
 
-class ReviewInLine(admin.TabularInline):
-    """Отзывы на странице фильма"""
-    model = Reviews
-    extra = 1
-    readonly_fields = ("name", "email")
-
 class MovieShotsInLine(admin.TabularInline):
     model = MovieShots
     extra = 1
     readonly_fields = ("get_image",)
+
     def get_image(self, obj):
         return mark_safe(f'<img src={obj.image.url} width="100" height="110"')
 
@@ -49,7 +42,7 @@ class MovieAdmin(admin.ModelAdmin):
     list_display = ("title", "category", "url", "draft")
     list_filter = ("category", "year")
     search_fields = ("title", "category__name")
-    inlines = [MovieShotsInLine, ReviewInLine]
+    inlines = [MovieShotsInLine]
     save_on_top = True
     save_as = True
     list_editable = ("draft",)
@@ -58,7 +51,7 @@ class MovieAdmin(admin.ModelAdmin):
     readonly_fields = ("get_image",)
     fieldsets = (
         (None, {
-            "fields": (("title", "tagline"), )
+            "fields": (("title","tagline", "video", "trailer_url", "age_category"), )
         }),
         (None, {
             "fields": ("description", ("poster", "get_image"))
@@ -81,7 +74,6 @@ class MovieAdmin(admin.ModelAdmin):
     def get_image(self, obj):
         return mark_safe(f'<img src={obj.poster.url} width="100" height="110"')
 
-
     def unpublish(self, request, queryset):
         """Снять с публикации"""
         row_update = queryset.update(draft=True)
@@ -90,8 +82,6 @@ class MovieAdmin(admin.ModelAdmin):
         else:
             message_bit = f"{row_update} записей были обновлены"
         self.message_user(request, f"{message_bit}")
-
-
 
     def publish(self, request, queryset):
         """Опубликовать"""
@@ -109,12 +99,6 @@ class MovieAdmin(admin.ModelAdmin):
     unpublish.allowed_permissions = ('change',)
 
     get_image.short_description = "Постер"
-
-@admin.register(Reviews)
-class ReviewAdmin(admin.ModelAdmin):
-    """Отзывы"""
-    list_display = ("name", "email", "parent", "movie", "id")
-    readonly_fields = ("name", "email")
 
 
 @admin.register(Genre)
@@ -135,13 +119,6 @@ class ActorAdmin(admin.ModelAdmin):
     get_image.short_description = "Изображение"
 
 
-
-@admin.register(Rating)
-class RatingAdmin(admin.ModelAdmin):
-    """Рейтинг"""
-    list_display = ("ip", "movie", "star")
-
-
 @admin.register(MovieShots)
 class MovieShotsAdmin(admin.ModelAdmin):
     """Кадры из фильма"""
@@ -154,7 +131,12 @@ class MovieShotsAdmin(admin.ModelAdmin):
     get_image.short_description = "Изображение"
 
 
-admin.site.register(RatingStar)
+admin.site.register(Comment)
 
-admin.site.site_title = "Django_Movies"
-admin.site.site_header = "Django_Movies"
+
+admin.site.site_title = "Киносайт"
+admin.site.site_header = "Киносайт"
+
+
+
+

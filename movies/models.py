@@ -1,13 +1,8 @@
 # Create your models here.
-
 from django.db import models
-
-
+from accounts.models import User
 from datetime import date
-
 from django.urls import reverse
-
-# Create your models here.
 
 
 class Category(models.Model):
@@ -31,15 +26,11 @@ class Actor(models.Model):
     description = models.TextField("Описание")
     image = models.ImageField("Изображение", upload_to="actors/")
 
-
-
     def __str__(self):
         return self.name
 
-
     def get_absolute_url(self):
         return reverse('actor_detail', kwargs={"slug": self.name})
-
 
     class Meta:
         verbose_name = "Актеры и режиссеры"
@@ -52,7 +43,6 @@ class Genre(models.Model):
     description = models.TextField("Описание")
     url = models.SlugField(max_length=160, unique=True)
 
-
     def __str__(self):
         return self.name
 
@@ -63,7 +53,7 @@ class Genre(models.Model):
 
 class Movie(models.Model):
     """Фильм"""
-    title = models.CharField("Название", max_length=100)
+    title = models.CharField("Название", max_length=255)
     tagline = models.CharField("Слоган", max_length=100, default='')
     description = models.TextField("Описание")
     poster = models.ImageField("Постер", upload_to="movies/")
@@ -79,15 +69,15 @@ class Movie(models.Model):
     category = models.ForeignKey(Category, verbose_name="Категория", on_delete=models.SET_NULL, null=True)
     url = models.SlugField(max_length=130, unique=True)
     draft = models.BooleanField("Черновик", default=False)
-
+    video = models.FileField(upload_to="movies/videos", blank=True, null=True)
+    age_category = models.PositiveBigIntegerField("Возрастная категория", default=16)
+    trailer_url = models.URLField("Ссылка на трейлер", blank=True, null=True)
 
     def __str__(self):
         return self.title
 
-
     def get_absolute_url(self):
         return reverse("movie_detail", kwargs={"slug": self.url})
-
 
     def get_review(self):
         return self.reviews_set.filter(parent__isnull=True)
@@ -97,12 +87,9 @@ class Movie(models.Model):
         verbose_name_plural = "Фильмы"
 
 
-
-
-
 class MovieShots(models.Model):
     """Кадры из фильма"""
-    title = models.CharField("Заголовок", max_length=100)
+    title = models.CharField("Заголовок", max_length=150)
     description = models.TextField("Описание")
     image = models.ImageField("Изображение", upload_to="movie_shots/")
     movie = models.ForeignKey(Movie, verbose_name="Фильм", on_delete=models.CASCADE)
@@ -115,48 +102,18 @@ class MovieShots(models.Model):
         verbose_name_plural = "Кадры из фильма"
 
 
-class RatingStar(models.Model):
-    """Звезда рейтинга"""
-    value = models.SmallIntegerField("Значение", default=0)
-
-    def __str__(self):
-        return f'{self.value}'
-
-
-    class Meta:
-        verbose_name = "Звезда рейтинга"
-        verbose_name_plural = "Звезды рейтинга"
-        ordering = ["-value"]
-
-
-class Rating(models.Model):
-    """Рейтинг"""
-    ip = models.CharField("IP адрес", max_length=15)
-    star = models.ForeignKey(RatingStar, on_delete=models.CASCADE, verbose_name="Звезда")
-    movie = models.ForeignKey(Movie, on_delete=models.CASCADE, verbose_name="Фильм")
-
-    def __str__(self):
-        return f"{self.star} - {self.movie}"
-
+class Comment(models.Model):
+    """Комментарии/Отзывы"""
+    author = models.ForeignKey(User, on_delete=models.SET_NULL, blank=True, null=True, verbose_name="Автор")
+    post = models.ForeignKey(Movie, on_delete=models.SET_NULL, blank=True, null=True, verbose_name="Пост", related_name="comments")
+    text = models.TextField("Комментарий")
+    created = models.DateTimeField(auto_now_add=True)
 
     class Meta:
-        verbose_name = "Рейтинг"
-        verbose_name_plural = "Рейтинги"
-
-
-
-class Reviews(models.Model):
-    """Отзывы"""
-    email = models.EmailField()
-    name = models.CharField("Имя", max_length=100)
-    text = models.TextField("Сообщение", max_length=5000)
-    parent = models.ForeignKey('self', verbose_name="Родитель", on_delete=models.SET_NULL, blank=True, null=True)
-    movie = models.ForeignKey(Movie, verbose_name="Фильм", on_delete=models.CASCADE)
+        verbose_name = "Комментарий"
+        verbose_name_plural = "Комментарии"
 
     def __str__(self):
-        return f"{self.name} - {self.movie}"
+        return self.text
 
 
-    class Meta:
-        verbose_name = "Отзыв"
-        verbose_name_plural = "Отзывы"

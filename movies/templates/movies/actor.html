@@ -1,0 +1,116 @@
+{% extends 'base.html' %}
+{% block content %}
+{% load static %}
+	<section class="section details">
+		<!-- details background -->
+		<div class="details__bg" data-bg="{% static 'img/home/home__bg.jpg' %}"></div>
+		<!-- end details background -->
+
+		<!-- details content -->
+		<div class="container">
+			<div class="row">
+				<!-- title -->
+				<div class="col-12">
+					<h1 class="form__btn" style="color:white; margin-left: 2em; margin-bottom: 1em;">{{ actor.name }}</h1>
+				</div>
+				<!-- end title -->
+
+				<!-- content -->
+				<div class="col-10">
+					<div class="card card--details card--series">
+						<div class="row">
+							<!-- card cover -->
+							<div class="col-12 col-sm-4 col-md-4 col-lg-3 col-xl-3">
+								<div class="card__cover">
+									<img src="{{ actor.image.url }}" alt="">
+								</div>
+							</div>
+							<!-- end card cover -->
+
+							<!-- card content -->
+							<div class="col-12 col-sm-8 col-md-8 col-lg-9 col-xl-7">
+								<div class="card__content">
+									<div class="card__wrap">
+
+										<ul class="card__list" style="margin-left: -0em;">
+											<li>{{ actor.age }} года/лет</li>
+
+										</ul>
+									</div>
+
+									<ul class="card__meta">
+										<li><span><b style="color:#32CD32;">Имя:</b></span><b style="color:white;">{{ actor.name }}</b></li>
+									<li><span><b style="color:#32CD32;">Фильмы:</b></span>
+											{% for movie in actor.film_actor.all %}
+											<a href="{% url 'movie_detail' movie.pk %}">{{ movie.title }}</a>{% endfor %}</li>
+
+										<li><span><b style="color:#32CD32;">Возраст:</b></span><b style="color:white;">{{ actor.age }}</b></li>
+										<li><div class="card__meta"><span><b style="color:#32CD32;">Описание:</b></span><b style="color:white;">{{ actor.description|safe }}</b></li>
+								</div></div>
+							</div>
+							<!-- end card content -->
+						</div>
+					</div>
+				</div>
+					</div>
+				</div>
+			</div>
+		</div>
+					<div class="container">
+			<!-- content tabs -->
+			<div class="tab-content" id="myTabContent">
+				<div class="tab-pane fade show active" id="tab-1" role="tabpanel" aria-labelledby="1-tab">
+
+					<div class="home__title"><a CLASS="form__btn" style="color:white; margin-left: 37em; margin-bottom: 3em;">ВСЕ ФИЛЬМЫ</a></div>
+
+					<div class="row">
+						<!-- card -->
+						{% for movie in actor.film_actor.all %}
+						<div class="col-6 col-sm-12 col-lg-6">
+							<div class="card card--list">
+								<div class="row">
+									<div class="col-12 col-sm-4">
+										<div class="card__cover">
+											<img src="{{ movie.poster.url }}" alt="">
+											<a href="{% url 'movie_detail' movie.pk %}" class="card__play">
+												<i class="icon ion-ios-play"></i>
+											</a>
+										</div>
+									</div>
+
+									<div class="col-12 col-sm-8">
+										<div class="card__content">
+											<h3 class="card__title"><a href="{% url 'movie_detail' movie.pk %}">{{ movie.title }}</a></h3>
+											<span class="card__category">
+												<a  href="{% url 'movie_detail' movie.pk %}">
+													Жанр:
+													{% for genre in movie.genres.all %}
+													{{ genre.name }}
+													{% endfor %}
+												</a>
+											</span>
+
+											<div class="card__wrap">
+
+												<ul class="card__list" style="margin-left: -0em;">
+													<li>{{ movie.age_category }}+</li>
+													<li>{{ movie.year }}</li>
+													<li>{{ movie.country }}</li>
+													<li><a href="{{ movie.trailer_url }}">ПОСМОТРЕТЬ ТРЕЙЛЕР</a></li>
+												</ul>
+											</div>
+
+											<div class="card__description">
+												<p><b style="color:#32CD32;">Описание</b><b style="color:white;">{{ movie.description|safe }}</b></p>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						{% endfor %}
+				<!-- end title -->
+</section>
+{% endblock %}
+{% block javascript %}
+{% endblock %}

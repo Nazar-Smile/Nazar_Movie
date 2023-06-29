@@ -6,7 +6,7 @@
 
 ИНСТРУКЦИЯ ПО ЗАПУСКУ:
 
-Склонировать проект: https://github.com/Nazar-Smile/my_kinosite_project.git
+Склонировать проект: # https://github.com/Nazar-Smile/my_kinosite_project.git
 
 Перейти по пути, где расположены основные файлы включая manage.py: cd my_kinosite_project
 
